@@ -71,10 +71,9 @@ const EventModal = ({
             {eventToEdit ? `Edit Event` : `Create Event for Day ${selectedDay}`}
           </h2>
           <div className="flex items-center">
-            {/* Add Delete Button - only show when editing */}
             {eventToEdit && (
               <button
-                className="text-white hover:text-red-200 transition-colors mr-3"
+                className="text-white hover:text-red-200 transition-colors mr-3 "
                 onClick={() => setShowDeleteConfirm(true)}
                 aria-label="Delete event"
               >

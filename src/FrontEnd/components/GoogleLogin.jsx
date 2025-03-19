@@ -4,14 +4,17 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
+import { useAtom } from "jotai";
+import { tokenAtom, userAtom } from "../atoms/authAtoms";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
+  const [, setToken] = useAtom(tokenAtom);
+  const [, setUser] = useAtom(userAtom);
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log("Google Token Response:", tokenResponse);
-
       try {
         notification.info({
           message: "Signing in",
@@ -28,10 +31,10 @@ const GoogleLogin = () => {
 
         if (data.success) {
           console.log("Google User Data:", data.user);
-          // Store the access token or a custom token in localStorage
-          localStorage.setItem("token", tokenResponse.access_token); // Use access_token as token
-          localStorage.setItem("user", JSON.stringify(data.user)); // Keep user data
-          navigate("/home", { replace: true }); // Navigate to /home
+          setToken(tokenResponse.access_token);
+          setUser(data.user);
+          console.log("Navigating to /rooms");
+          navigate("/rooms", { replace: true });
         } else {
           throw new Error("Invalid response from server");
         }

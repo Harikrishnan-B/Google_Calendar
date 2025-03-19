@@ -23,7 +23,6 @@ const DetailedEventView = ({ events, viewMode, currentDate, isDarkMode, setShowM
     const date = new Date(currentDate);
     const day = date.getDay(); // 0 is Sunday, 6 is Saturday
     
-    // Set to Sunday of the week
     date.setDate(date.getDate() - day);
     
     const weekDates = [];
@@ -36,7 +35,6 @@ const DetailedEventView = ({ events, viewMode, currentDate, isDarkMode, setShowM
     return weekDates;
   };
 
-  // For week view
   const renderWeekView = () => {
     const weekDates = getWeekDates();
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -98,7 +96,6 @@ const DetailedEventView = ({ events, viewMode, currentDate, isDarkMode, setShowM
     );
   };
 
-  // For day view
   const renderDayView = () => {
     const dayEvents = getEventsForDate(currentDate);
     const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -154,7 +151,11 @@ const DetailedEventView = ({ events, viewMode, currentDate, isDarkMode, setShowM
                       onClick={() => {
                         setSelectedDay(currentDate.getDate());
                         const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-                        setEventToEdit({ startTime: timeStr, endTime: `${(hour + 1).toString().padStart(2, '0')}:00` });
+                        setEventToEdit({ 
+                          startTime: timeStr, 
+                          endTime: `${(hour + 1).toString().padStart(2, '0')}:00`,
+                          date: currentDate.getDate() // Add the date information
+                        });
                         setShowModal(true);
                       }}
                     ></div>

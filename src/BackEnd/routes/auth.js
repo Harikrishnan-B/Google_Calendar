@@ -1,25 +1,21 @@
 import express from "express";
 import axios from "axios";
-import User from "../models/User.js"; // Should resolve to BackEnd/models/User.js
+import User from "../models/User.js";
 
 const router = express.Router();
 
 router.post("/google", async (req, res) => {
   try {
-    const { credential } = req.body; // Expecting access_token as credential
+    const { credential } = req.body;
 
-    const response = await axios.get(
-      "https://www.googleapis.com/oauth2/v1/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${credential}`,
-        },
-      }
-    );
+    const response = await axios.get("https://www.googleapis.com/oauth2/v1/userinfo", {
+      headers: {
+        Authorization: `Bearer ${credential}`,
+      },
+    });
 
     const payload = response.data;
 
-    // Check if user exists or create a new one
     let user = await User.findOne({ email: payload.email });
     if (!user) {
       user = new User({
