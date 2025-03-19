@@ -114,52 +114,48 @@ const CalendarGrid = ({ currentDate, setShowModal, setSelectedDay, events, isDar
               </div>
 
               <div className="mt-1 space-y-1 overflow-y-auto max-h-20 scrollbar-thin scrollbar-thumb-green-200">
-                {dayEvents.map((event, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      isDarkMode
-                        ? 'bg-gradient-to-r from-green-700 to-green-600 text-gray-100'
-                        : 'bg-gradient-to-r from-green-600 to-green-500 text-white'
-                    } p-1 rounded-md text-xs shadow-sm flex items-center justify-between`}
-                  >
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-white rounded-full mr-1 flex-shrink-0"></span>
-                      <span className="truncate">{event.title}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      {event.startTime && (
-                        <span className={`${isDarkMode ? 'text-green-200' : 'text-green-100'}`}>
-                          {event.startTime}
-                        </span>
-                      )}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering day click
-                          handleEditClick(event);
-                        }}
-                        className={`${
-                          isDarkMode ? 'text-gray-200 hover:text-white' : 'text-white hover:text-gray-200'
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              {dayEvents.map((event, index) => (
+  <div
+    key={index}
+    className="p-1 rounded-md text-xs shadow-sm flex items-center justify-between cursor-pointer hover:opacity-90"
+    style={{ 
+      backgroundColor: event.color || "#4CAF50",
+      color: "white" 
+    }}
+    onClick={(e) => {
+      e.stopPropagation(); 
+      handleEditClick(event);
+    }}
+  >
+    <div className="flex items-center">
+      <span className="w-2 h-2 bg-white rounded-full mr-1 flex-shrink-0"></span>
+      <span className="truncate">{event.title}</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      {event.startTime && (
+        <span className="text-white opacity-90">
+          {event.startTime}
+        </span>
+      )}
+      <button className="text-white hover:text-gray-200">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+))}
               </div>
 
               {hasEvents > 0 && (

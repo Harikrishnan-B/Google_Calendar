@@ -30,11 +30,55 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post('/api/events', async (req, res) => {
+  try {
+    const eventData = req.body;
+    
+    // If _id exists, update instead of create
+    if (eventData._id) {
+      const id = eventData._id;
+      delete eventData._id; // Remove _id from the update data
+      
+      const updatedEvent = await Event.findByIdAndUpdate(
+        id,
+        eventData,
+        { new: true }
+      );
+      
+      if (!updatedEvent) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+      
+      return res.json(updatedEvent);
+    }
+    
+    // Otherwise create a new event
+    const newEvent = new Event(eventData);
+    await newEvent.save();
+    res.status(201).json(newEvent);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: "Event not found" });
-    await event.remove();
+    
+    await Event.findByIdAndDelete(req.params.id);
     res.json({ message: "Event deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });

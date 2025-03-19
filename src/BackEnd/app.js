@@ -11,11 +11,11 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Exact frontend origin
-  methods: ['GET', 'POST', 'OPTIONS'], 
-  allowedHeaders: ['Content-Type'], 
-  credentials: true, 
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);

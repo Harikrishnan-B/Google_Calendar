@@ -26,6 +26,24 @@ export const createEvent = async (eventData) => {
   }
 };
 
+export const updateEvent = async (eventId, eventData) => {
+  try {
+    const response = await fetch(`${API_URL}/events`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _id: eventId,  
+        ...eventData
+      }),
+    });
+    if (!response.ok) throw new Error('Failed to update event');
+    return await response.json();
+  } catch (error) {
+    console.error('Error updating event:', error);
+    throw error;
+  }
+};
+
 export const deleteEvent = async (eventId) => {
   try {
     const response = await fetch(`${API_URL}/events/${eventId}`, {
